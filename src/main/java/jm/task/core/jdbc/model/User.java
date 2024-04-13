@@ -1,8 +1,11 @@
 package jm.task.core.jdbc.model;
 
+import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 @Table
 public class User {
@@ -26,6 +29,20 @@ public class User {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        UserDaoJDBCImpl getAllUsersStringTable = new UserDaoJDBCImpl();
+        List<User> userList = getAllUsersStringTable.getAllUsers();
+
+        StringBuilder sb = new StringBuilder();
+        for (User user : userList) {
+            sb.append("Name: ").append(user.getName())
+                    .append("\nLast Name: ").append(user.getLastName())
+                    .append("\nAge: ").append(user.getAge());
+        }
+        return sb.toString();
     }
 
     public Long getId() {
