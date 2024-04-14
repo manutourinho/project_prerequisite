@@ -3,9 +3,9 @@ package jm.task.core.jdbc.util;
 import java.sql.*;
 
 public class Util {
-    private final String url = "jdbc:mysql://localhost:3306/habsida_test";
-    private final String username = "datamagician";
-    private final String password = "Cobrarato18*";
+    private final String url = "jdbc:mysql://localhost:3306/task_1_2";
+    private final String username = "devuser";
+    private final String password = "Uvaroxa18*";
 
     public void getLocalConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
