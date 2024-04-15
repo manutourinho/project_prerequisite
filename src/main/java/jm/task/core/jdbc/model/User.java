@@ -33,16 +33,10 @@ public class User {
 
     @Override
     public String toString() {
-        UserDaoJDBCImpl getAllUsersStringTable = new UserDaoJDBCImpl();
-        List<User> userList = getAllUsersStringTable.getAllUsers();
+        return "Name: " + getName() +
+                "\nLast name: " + getLastName() +
+                "\nAge: " + getAge();
 
-        StringBuilder sb = new StringBuilder();
-        for (User user : userList) {
-            sb.append("Name: ").append(user.getName())
-                    .append("\nLast Name: ").append(user.getLastName())
-                    .append("\nAge: ").append(user.getAge());
-        }
-        return sb.toString();
     }
 
     public Long getId() {

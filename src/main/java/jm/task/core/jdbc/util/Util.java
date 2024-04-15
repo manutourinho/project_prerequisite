@@ -7,18 +7,8 @@ public class Util {
     private final String username = "devuser";
     private final String password = "Uvaroxa18*";
 
-    public void getLocalConnection() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(getUrl(), getUsername(), getPassword());
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select * from User");
-        while (resultSet.next()) {
-            System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2)
-                    + " "
-                    + resultSet.getString(3));
-        }
-
-        connection.close();
+    public Connection getLocalConnection() throws SQLException, ClassNotFoundException {
+        return DriverManager.getConnection(getUrl(), getUsername(), getPassword());
 
     }
 
