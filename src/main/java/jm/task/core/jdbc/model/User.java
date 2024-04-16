@@ -1,15 +1,12 @@
 package jm.task.core.jdbc.model;
 
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.List;
 
 @Table
 public class User {
-    @Id
+    @Column(name = "USER_ID")
     private Long id;
 
     @Column
