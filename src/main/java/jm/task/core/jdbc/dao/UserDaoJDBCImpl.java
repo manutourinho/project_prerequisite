@@ -20,11 +20,11 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         try (Statement statement = util.getLocalConnection().createStatement()) {
             statement.executeUpdate("create table if not exists USERS ("
-                    + "USER_ID int not null auto_increment, "
+                    + "ID int not null auto_increment, "
                     + "NAME varchar(50) not null, "
                     + "LASTNAME varchar(50) not null, "
                     + "AGE TINYINT not null," +
-                    "primary key (USER_ID))");
+                    "primary key (ID))");
 
         } catch (SQLException | ClassNotFoundException e) {
             e.getStackTrace();
@@ -59,7 +59,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         try (PreparedStatement statement = util.getLocalConnection()
-                .prepareStatement("delete from USERS where USER_ID = ?")) {
+                .prepareStatement("delete from USERS where ID = ?")) {
             statement.setLong(1, id);
             statement.executeUpdate();
 

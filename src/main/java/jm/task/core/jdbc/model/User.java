@@ -3,7 +3,7 @@ package jm.task.core.jdbc.model;
 import javax.persistence.*;
 
 public class User {
-    @Id
+
     private Long id;
 
     @Column
