@@ -19,11 +19,12 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         try (Statement statement = util.getLocalConnection().createStatement()) {
-            statement.executeUpdate("create table if not exists users ("
-                    + "USER_ID integer auto_increment primary key, "
+            statement.executeUpdate("create table if not exists USERS ("
+                    + "USER_ID int not null auto_increment, "
                     + "NAME varchar(50) not null, "
                     + "LASTNAME varchar(50) not null, "
-                    + "AGE TINYINT not null)");
+                    + "AGE TINYINT not null," +
+                    "primary key (USER_ID))");
 
         } catch (SQLException | ClassNotFoundException e) {
             e.getStackTrace();
@@ -34,7 +35,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = util.getLocalConnection()
                 .createStatement()) {
-            statement.executeUpdate("drop table if exists users");
+            statement.executeUpdate("drop table if exists USERS");
 
         } catch (SQLException | ClassNotFoundException e) {
             e.getStackTrace();
@@ -44,24 +45,21 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         try (PreparedStatement statement = util.getLocalConnection()
-                    .prepareStatement("insert into users " +
-                            "values (?, ?, ?)")) {
-
+                .prepareStatement("insert into USERS (NAME, LASTNAME, AGE) values (?, ?, ?)")) {
             statement.setString(1, name);
             statement.setString(2, lastName);
             statement.setByte(3, age);
-
             statement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException e) {
-            e.getStackTrace();
+            e.printStackTrace();
 
         }
     }
 
     public void removeUserById(long id) {
         try (PreparedStatement statement = util.getLocalConnection()
-                .prepareStatement("delete from users where id = ?")) {
+                .prepareStatement("delete from USERS where USER_ID = ?")) {
             statement.setLong(1, id);
             statement.executeUpdate();
 
@@ -75,7 +73,7 @@ public class UserDaoJDBCImpl implements UserDao {
         List<User> usersList = new ArrayList<>();
         try (Statement statement = util.getLocalConnection()
                 .createStatement();
-             ResultSet resultSet = statement.executeQuery("select * from users")) {
+             ResultSet resultSet = statement.executeQuery("select * from USERS")) {
             while (resultSet.next()) {
                 User user = new User(resultSet.getString("NAME"),
                         resultSet.getString("LASTNAME"),
@@ -95,7 +93,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         try (Statement statement = util.getLocalConnection()
                 .createStatement()) {
-            statement.executeUpdate("delete from users");
+            statement.executeUpdate("delete from USERS");
 
         } catch (SQLException | ClassNotFoundException e) {
             e.getStackTrace();

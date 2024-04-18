@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
 
         UserServiceImpl userService = new UserServiceImpl();
-
+        
         userService.createUsersTable();
 
         User userOne = new User("Manuela", "Tourinho", (byte) 26);
@@ -30,7 +30,7 @@ public class Main {
         userService.saveUser(userFour.getName(), userFour.getLastName(), userFour.getAge());
         System.out.println("User with name - " + userFour.getName() + " added to the database");
 
-        userService.getAllUsers();
+        System.out.println(userService.getAllUsers());
         System.out.println(userOne.toString());
         userService.cleanUsersTable();
         userService.dropUsersTable();
