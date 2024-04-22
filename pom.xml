@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>TaskJDBC</artifactId>
+    <artifactId>project_prerequisite_manu</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.25</version>
+            <version>8.0.33</version>
         </dependency>
 
         <dependency>

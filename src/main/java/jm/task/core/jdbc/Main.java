@@ -1,11 +1,7 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserServiceImpl;
-import jm.task.core.jdbc.util.Util;
-
-import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,7 +27,7 @@ public class Main {
         System.out.println("User with name - " + userFour.getName() + " added to the database");
 
         System.out.println(userService.getAllUsers());
-        System.out.println(userOne.toString());
+        System.out.println(userOne);
         userService.cleanUsersTable();
         userService.dropUsersTable();
     }

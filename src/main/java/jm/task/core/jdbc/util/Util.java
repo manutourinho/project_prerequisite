@@ -1,5 +1,9 @@
 package jm.task.core.jdbc.util;
 
+import jm.task.core.jdbc.model.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import java.sql.*;
 
 public class Util {
@@ -12,10 +16,22 @@ public class Util {
 
     }
 
-    public String getUrl() { return url; }
+    public SessionFactory getHibernateConnection() {
 
-    public String getUsername() { return username; }
+        Configuration configuration = new Configuration();
+        configuration.setProperty("hibernate.connection.url", getUrl());
+        configuration.setProperty("hibernate.connection.username", getUsername());
+        configuration.setProperty("hibernate.connection.password", getPassword());
+        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        configuration.addAnnotatedClass(User.class);
 
-    public String getPassword() { return password; }
+        return configuration.buildSessionFactory();
 
+    }
+
+    private String getUrl() { return url; }
+
+    private String getUsername() { return username; }
+
+    private String getPassword() { return password; }
 }
