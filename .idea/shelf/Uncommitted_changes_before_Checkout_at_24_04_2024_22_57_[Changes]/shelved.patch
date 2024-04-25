@@ -1,0 +1,22 @@
+Index: src/main/java/app/model/AnimalsCage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package app.model;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Component;\r\n\r\n@Component\r\npublic class AnimalsCage {\r\n\r\n    @Autowired\r\n    private Animal animal;\r\n\r\n    public void whatAnimalSay() {\r\n        System.out.println(\"Say:\");\r\n        System.out.println(animal.toString());\r\n        System.out.println(\"At:\");\r\n        System.out.println(new Timer().getTime());\r\n        System.out.println(\"________________________\");\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/app/model/AnimalsCage.java b/src/main/java/app/model/AnimalsCage.java
+--- a/src/main/java/app/model/AnimalsCage.java	(revision 1f89193b3cc0b30c610a2f3777394a82fd795c3e)
++++ b/src/main/java/app/model/AnimalsCage.java	(date 1714010223171)
+@@ -6,8 +6,10 @@
+ @Component
+ public class AnimalsCage {
+ 
++//    @Autowired
++//    private Animal animal;
+     @Autowired
+-    private Animal animal;
++    private Timer timer;
+ 
+     public void whatAnimalSay() {
+         System.out.println("Say:");
