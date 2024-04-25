@@ -10,6 +10,6 @@ public class Fish1 {
 
     @Override
     public String toString() {
-        return "of a rabbit inside of a duck, " + duck2.toString();
+        return "of a fish inside of a duck, " + duck2.toString();
     }
 }

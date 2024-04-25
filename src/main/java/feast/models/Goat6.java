@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Goat6 {
+
     @Autowired
     private Horse7 horse7;
 

@@ -17,7 +17,7 @@ public class MainTest {
 
     @Test
     public void mainTest() {
-        String text = "Traditional Bedouin Wedding Feast consists of stuffing of a rabbit inside of a duck, which is stuffed inside a chicken, which is stuffed inside a pig, which is stuffed inside a lamb, which is stuffed inside a goat, which is stuffed inside a horse, which is stuffed inside a camel, and cooked over a charcoal fire.";
+        String text = "Traditional Bedouin Wedding Feast consists of stuffing of a fish inside of a duck, which is stuffed inside a chicken, which is stuffed inside a pig, which is stuffed inside a lamb, which is stuffed inside a goat, which is stuffed inside a horse, which is stuffed inside a camel, and cooked over a charcoal fire.";
 
         TraditionalFeast traditionalFeast =
                 applicationContext.getBean(TraditionalFeast.class);
