@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>✿ userrrr form! ✿</title>
+</head>
+<body>
+<form th:action="@{/user/save}" method="POST" th:object="${user}">
+  <input type="hidden" th:field="*{id}" />
+  <table>
+    <tr>
+      <td>✿ FIRST NAME ✿</td>
+      <td>
+        <label>
+          <input type="text" th:field="*{firstName}" />
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>✿ LAST NAME ✿</td>
+      <td>
+        <label>
+          <input type="text" th:field="*{lastName}" />
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>✿ AGE ✿</td>
+      <td>
+        <label>
+          <input type="text" th:field="*{age}" />
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>✿ EMAIL ✿</td>
+      <td>
+        <label>
+          <input type="text" th:field="*{email}" />
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><button type="submit">SAVE</button></td>
+    </tr>
+  </table>
+</form>
+
+</body>
+</html>
