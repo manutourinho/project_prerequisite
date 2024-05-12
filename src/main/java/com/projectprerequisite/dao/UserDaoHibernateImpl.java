@@ -1,7 +1,7 @@
-package hiber.dao;
+package com.projectprerequisite.dao;
 
 import org.springframework.stereotype.Repository;
-import web.model.User;
+import com.projectprerequisite.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

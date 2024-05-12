@@ -1,10 +1,10 @@
-package web.service;
+package com.projectprerequisite.dao;
 
-import web.model.User;
+import com.projectprerequisite.model.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserDao {
 
     void saveOrUpdateUser(User user);
 

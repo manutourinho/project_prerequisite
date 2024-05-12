@@ -1,10 +1,10 @@
-package hiber.dao;
+package com.projectprerequisite.service;
 
-import web.model.User;
+import com.projectprerequisite.model.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserService {
 
     void saveOrUpdateUser(User user);
 

@@ -1,9 +1,9 @@
-package web.service;
+package com.projectprerequisite.service;
 
-import hiber.dao.UserDao;
+import com.projectprerequisite.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import web.model.User;
+import com.projectprerequisite.model.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
