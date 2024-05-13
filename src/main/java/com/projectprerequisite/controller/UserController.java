@@ -2,68 +2,73 @@ package com.projectprerequisite.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import com.projectprerequisite.model.User;
 import com.projectprerequisite.service.UserService;
 
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/user")
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ModelAndView add() {
-        ModelAndView modelAndView = new ModelAndView("user/form");
-        User user = new User();
-        modelAndView.addObject("user", user);
+    @GetMapping("/user")
+    public String homeUserPage() {
+        return "user/home";
+    }
 
-        return modelAndView;
+    @GetMapping("user/list")
+    public String listUsers(Model model) {
+        try {
+            List<User> users = userService.getAllUsers();
+            model.addAttribute("user", users);
+        } catch (Exception e) {
+            model.addAttribute("user", null);
+        }
+        return "user/list";
 
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public ModelAndView update(@PathVariable("id") long id) {
-        ModelAndView modelAndView = new ModelAndView("user/form");
-        User user = userService.getUserById(id);
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
+    @GetMapping("user/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("user", new User());
+        return "user/form";
 
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView save(@ModelAttribute("userForm") User user) {
+    @PostMapping("user/add")
+    public String add(@ModelAttribute("user") User user) {
         userService.saveOrUpdateUser(user);
-
-        return new ModelAndView("redirect:/user/list");
+        return "redirect:/user/list";
 
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public ModelAndView delete(@PathVariable("id") long id) {
+    @GetMapping(value = "user/update/{id}")
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
+        return "user/update";
+
+    }
+
+    @PostMapping("user/update/{id}")
+    public String update(@PathVariable Long id, @ModelAttribute("user") User user) {
+        userService.saveOrUpdateUser(user);
+        return "redirect:/user/list";
+
+    }
+
+    @RequestMapping(value = "user/delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable("id") long id) {
         userService.removeUserById(id);
-
-        return new ModelAndView("redirect:/user/list");
-
-    }
-
-    @RequestMapping(value = "/list")
-    public ModelAndView list() {
-        ModelAndView modelAndView = new ModelAndView("user/list");
-        List<User> users = userService.getAllUsers();
-        modelAndView.addObject("users", users);
-
-        return modelAndView;
+        return "redirect:/user/list";
 
     }
-
 
 }

@@ -2,50 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>✿ userrrr form! ✿</title>
+    <title>&#127799 userrrr form! &#127799</title>
 </head>
+<style>
+  body {
+    font-size: 20px;
+  }
+</style>
 <body>
-<form th:action="@{/user/save}" method="POST" th:object="${user}">
-  <input type="hidden" th:field="*{id}" />
-  <table>
-    <tr>
-      <td>✿ FIRST NAME ✿</td>
-      <td>
-        <label>
-          <input type="text" th:field="*{firstName}" />
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td>✿ LAST NAME ✿</td>
-      <td>
-        <label>
-          <input type="text" th:field="*{lastName}" />
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td>✿ AGE ✿</td>
-      <td>
-        <label>
-          <input type="text" th:field="*{age}" />
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td>✿ EMAIL ✿</td>
-      <td>
-        <label>
-          <input type="text" th:field="*{email}" />
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><button type="submit">SAVE</button></td>
-    </tr>
-  </table>
-</form>
+  <div class="container">
+    <h2>add user</h2>
+
+    <form th:action="@{/user/add}" th:object="${user}" method="post">
+      <label for="first_name">first name:</label>
+      <input type="text" id="first_name" name="first_name" th:field="*{firstName}" required>
+      <label for="last_name">last name:</label>
+      <input type="text" id="last_name" name="last_name" th:field="*{lastName}" required>
+      <label for="age">age:</label>
+      <input type="number" id="age" name="age" th:field="*{age}" required>
+      <label for="email">email:</label>
+      <input type="text" id="email" name="email" th:field="*{email}" required>
+      <button type="submit">&#127799 SAVE &#127799</button>
+    </form>
+    <br>
+    <br>
+
+    <a th:href="@{/user/list}">go to users list!</a>
+
+  </div>
 
 </body>
 </html>

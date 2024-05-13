@@ -2,6 +2,7 @@ package com.projectprerequisite.dao;
 
 import org.springframework.stereotype.Repository;
 import com.projectprerequisite.model.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +13,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
+@Transactional
 public class UserDaoHibernateImpl implements UserDao {
 
     @PersistenceContext
