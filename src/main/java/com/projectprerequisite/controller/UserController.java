@@ -64,7 +64,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "user/delete/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "user/delete/{id}")
     public String delete(@PathVariable("id") long id) {
         userService.removeUserById(id);
         return "redirect:/user/list";
