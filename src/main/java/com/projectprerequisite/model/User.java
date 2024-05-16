@@ -1,6 +1,8 @@
 package com.projectprerequisite.model;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
 @Entity

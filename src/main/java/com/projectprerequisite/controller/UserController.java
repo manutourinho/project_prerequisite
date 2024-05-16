@@ -17,11 +17,19 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+
+    }
+
+    @GetMapping("/")
+    public String redirectToUsersPage() {
+        return "redirect:/user";
+
     }
 
     @GetMapping("/user")
     public String homeUserPage() {
-        return "user/home";
+        return "home";
+
     }
 
     @GetMapping("user/list")
@@ -32,14 +40,14 @@ public class UserController {
         } catch (Exception e) {
             model.addAttribute("user", null);
         }
-        return "user/list";
+        return "list";
 
     }
 
     @GetMapping("user/add")
     public String showAddForm(Model model) {
         model.addAttribute("user", new User());
-        return "user/form";
+        return "form";
 
     }
 
@@ -53,7 +61,7 @@ public class UserController {
     @GetMapping(value = "user/update/{id}")
     public String showUpdateForm(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
-        return "user/update";
+        return "update";
 
     }
 
