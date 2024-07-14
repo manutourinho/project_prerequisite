@@ -10,7 +10,7 @@ public interface UserService {
     User loginUser(String email, String password);
     void saveUser(User user);
 
-    User updateUser(User user);
+    void updateUser(Long id, User updatedUser);
 
     void removeUserById(Long id);
 

@@ -50,7 +50,9 @@ public class WebAppController {
     }
 
     @GetMapping("/admin")
-    public String adminHomePage(Model model, Principal principal) {
+    public String adminHomePage(Model model,
+                                Principal principal,
+                                @ModelAttribute("user") @Valid User user) {
         User loggedUser = userRepository.findByUsername(principal.getName());
         model.addAttribute("loggedUser", loggedUser);
         model.addAttribute("roles", roleRepository.findAll());
@@ -62,43 +64,61 @@ public class WebAppController {
             model.addAttribute("users", null);
         }
 
-        model.addAttribute("user", new User());
+        model.addAttribute("userAdd", new User());
 
         return "admin/admin-home";
 
     }
 
     @PostMapping("/admin/add")
-    public String add(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @RequestParam("roles") Set<Role> roles, @RequestParam("password") String password) {
+    public String add(@ModelAttribute("user") @Valid User user,
+                      BindingResult bindingResult,
+                      @RequestParam("roles") Set<Role> roles,
+                      @RequestParam("password") String password) {
         if (bindingResult.hasErrors()) {
             logger.error("Error creating new user {}", user);
         }
-
 
         user.setRoles(roles);
         user.setPassword(bCryptPasswordEncoder.encode(password));
         userService.saveUser(user);
         logger.info("new user was created {}", user);
-        return "redirect:/admin";
+        return "redirect:/admin/update/{id}";
+
+    }
+
+    @GetMapping(value = "/admin/update/{id}")
+    public String showEditModal(@PathVariable("id") Long id,
+                                Model model) {
+        User userToUpdate = userRepository.findUserById(id);
+        model.addAttribute("userToUpdate", userToUpdate);
+        return "admin/admin-home";
 
     }
 
     @PostMapping(value = "/admin/update/{id}")
-    public String update(@PathVariable("id") Long id, @ModelAttribute("user") User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            logger.error("Error updating new user {}", user);
-            return "redirect:/admin";
-        }
+    public String update(@PathVariable("id") Long id,
+                         @ModelAttribute("userToUpdate") @Valid User user,
+                         BindingResult bindingResult, Model model) {
 
-        User userToUpdate = userRepository.findUserById(id);
-        userService.updateUser(userToUpdate);
-        logger.info("User was updated {}", user);
+        try {
+            if (bindingResult.hasErrors()) {
+                logger.error("Error updating new user {}", user);
+                return "redirect:/admin/update/{id}";
+            }
+
+            userService.updateUser(id, user);
+
+        } catch (Exception e) {
+            System.out.println("exception: " + e.getMessage());
+        }
         return "redirect:/admin";
 
     }
 
     @PostMapping(value = "admin/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public String delete(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userRepository.findUserById(id));
         userService.removeUserById(id);
         logger.info("user has been deleted. User id {}", id);
         return "redirect:/admin";
