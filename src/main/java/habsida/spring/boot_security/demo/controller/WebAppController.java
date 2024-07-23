@@ -88,10 +88,11 @@ public class WebAppController {
     }
 
     @GetMapping(value = "/admin/update/{id}")
-    public String showEditModal(@PathVariable("id") Long id,
-                                Model model) {
+    public String getUserForEdit(@PathVariable("id") Long id,
+                                 Model model) {
         User userToUpdate = userRepository.findUserById(id);
         model.addAttribute("userToUpdate", userToUpdate);
+        model.addAttribute("roles", roleRepository.findAll());
         return "admin/admin-home";
 
     }
@@ -100,18 +101,13 @@ public class WebAppController {
     public String update(@PathVariable("id") Long id,
                          @ModelAttribute("userToUpdate") @Valid User user,
                          BindingResult bindingResult, Model model) {
-
-        try {
-            if (bindingResult.hasErrors()) {
-                logger.error("Error updating new user {}", user);
-                return "redirect:/admin/update/{id}";
-            }
-
-            userService.updateUser(id, user);
-
-        } catch (Exception e) {
-            System.out.println("exception: " + e.getMessage());
+        if (bindingResult.hasErrors()) {
+            logger.error("Error updating new user {}", user);
+            model.addAttribute("userToUpdate", user);
+            return "admin/admin-home";
         }
+
+        userService.updateUser(id, user);
         return "redirect:/admin";
 
     }
