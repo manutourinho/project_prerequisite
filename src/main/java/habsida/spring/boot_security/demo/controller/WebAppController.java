@@ -65,6 +65,7 @@ public class WebAppController {
         }
 
         model.addAttribute("userAdd", new User());
+        model.addAttribute("userToUpdate", userRepository.findUserById(user.getIdUser()));
 
         return "admin/admin-home";
 
@@ -83,31 +84,30 @@ public class WebAppController {
         user.setPassword(bCryptPasswordEncoder.encode(password));
         userService.saveUser(user);
         logger.info("new user was created {}", user);
-        return "redirect:/admin/update/{id}";
+        return "redirect:/admin";
 
     }
 
     @GetMapping(value = "/admin/update/{id}")
-    public String getUserForEdit(@PathVariable("id") Long id,
-                                 Model model) {
+    public String getUserForUpdate(@PathVariable Long id, Model model) {
         User userToUpdate = userRepository.findUserById(id);
-        model.addAttribute("userToUpdate", userToUpdate);
+        model.addAttribute("user", userToUpdate);
         model.addAttribute("roles", roleRepository.findAll());
         return "admin/admin-home";
 
     }
 
     @PostMapping(value = "/admin/update/{id}")
-    public String update(@PathVariable("id") Long id,
-                         @ModelAttribute("userToUpdate") @Valid User user,
-                         BindingResult bindingResult, Model model) {
+    public String update(@ModelAttribute("user") @Valid User user,
+                         BindingResult bindingResult, Model model, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             logger.error("Error updating new user {}", user);
-            model.addAttribute("userToUpdate", user);
+            model.addAttribute("user", user);
+            model.addAttribute("roles", roleRepository.findAll());
             return "admin/admin-home";
         }
 
-        userService.updateUser(id, user);
+        userService.updateUser(user.getIdUser(), user);
         return "redirect:/admin";
 
     }
