@@ -92,22 +92,32 @@ public class WebAppController {
     public String getUserForUpdate(@PathVariable Long id, Model model) {
         User userToUpdate = userRepository.findUserById(id);
         model.addAttribute("user", userToUpdate);
+        logger.info("user obj from ID: {}", userToUpdate);
         model.addAttribute("roles", roleRepository.findAll());
+        logger.info("loading user for update w/ ID: {}", id);
         return "admin/admin-home";
 
     }
 
     @PostMapping(value = "/admin/update/{id}")
     public String update(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult, Model model, @PathVariable Long id) {
+                         BindingResult bindingResult, @PathVariable Long id) {
+        logger.info("updating user w/ ID: {}", id);
+        logger.info("user object ID: {}", user.getIdUser());
+        logger.info("user object from ID: {}", userRepository.findUserById(id));
+
+//        if (id == null || !id.equals(user.getIdUser())) {
+//            logger.error("ID mismatch or null ID");
+//            return "admin/admin-home";
+//        }
+
         if (bindingResult.hasErrors()) {
             logger.error("Error updating new user {}", user);
-            model.addAttribute("user", user);
-            model.addAttribute("roles", roleRepository.findAll());
+            user.setIdUser(id);
             return "admin/admin-home";
         }
 
-        userService.updateUser(user.getIdUser(), user);
+        userService.updateUser(id, userRepository.findUserById(id));
         return "redirect:/admin";
 
     }
