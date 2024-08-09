@@ -26,17 +26,14 @@ public class WebAppController {
     private final UserService userService;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(WebAppController.class);
 
     @Autowired
-    public WebAppController(UserService userService, RoleRepository roleRepository, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebAppController(UserService userService, RoleRepository roleRepository, UserRepository userRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-
     }
 
     @GetMapping("/user")
@@ -74,14 +71,12 @@ public class WebAppController {
     @PostMapping("/admin/add")
     public String add(@ModelAttribute("user") @Valid User user,
                       BindingResult bindingResult,
-                      @RequestParam("roles") Set<Role> roles,
-                      @RequestParam("password") String password) {
+                      @RequestParam("roles") Set<Role> roles) {
         if (bindingResult.hasErrors()) {
             logger.error("Error creating new user {}", user);
         }
 
         user.setRoles(roles);
-        user.setPassword(bCryptPasswordEncoder.encode(password));
         userService.saveUser(user);
         logger.info("new user was created {}", user);
         return "redirect:/admin";
@@ -90,37 +85,31 @@ public class WebAppController {
 
     @GetMapping(value = "/admin/update/{id}")
     public String getUserForUpdate(@PathVariable Long id, Model model) {
-        User userToUpdate = userRepository.findUserById(id);
-        model.addAttribute("user", userToUpdate);
-        logger.info("user obj from ID: {}", userToUpdate);
+        User user = userRepository.findUserById(id);
+        model.addAttribute("user", user);
+        logger.info("user obj from ID: {}", user);
         model.addAttribute("roles", roleRepository.findAll());
         logger.info("loading user for update w/ ID: {}", id);
         return "admin/admin-home";
-
     }
 
     @PostMapping(value = "/admin/update/{id}")
     public String update(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult, @PathVariable Long id) {
         logger.info("updating user w/ ID: {}", id);
-        logger.info("user object ID: {}", user.getIdUser());
-        logger.info("user object from ID: {}", userRepository.findUserById(id));
-
-//        if (id == null || !id.equals(user.getIdUser())) {
-//            logger.error("ID mismatch or null ID");
-//            return "admin/admin-home";
-//        }
+        logger.info("user object received to update: {}", user);
 
         if (bindingResult.hasErrors()) {
-            logger.error("Error updating new user {}", user);
-            user.setIdUser(id);
+            logger.error("Error updating user {}", user);
             return "admin/admin-home";
         }
 
-        userService.updateUser(id, userRepository.findUserById(id));
-        return "redirect:/admin";
+        logger.info("User object after form submission: {}", user);
 
+        userService.updateUser(id, user);
+        return "redirect:/admin";
     }
+
 
     @PostMapping(value = "admin/delete/{id}")
     public String delete(@PathVariable("id") Long id, Model model) {

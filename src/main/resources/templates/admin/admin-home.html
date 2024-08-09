@@ -191,70 +191,66 @@
 
         <!-- edit popup -->
         <div th:each="user : ${users}">
-            <div class="modal fade" th:id="'editUserModal' + ${user.idUser}" tabindex="-1"
-                 aria-labelledby="editUserModalLabel" aria-hidden="true">
-
+            <div class="modal fade" th:id="'editUserModal' + ${user.idUser}" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Edit User</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-
                         <form method="POST" th:object="${user}" th:action="@{/admin/update/{id}(id=${user.idUser})}">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <input type="hidden" th:field="*{idUser}"/>
 
                             <div class="modal-body">
-                                <!-- form to edit user details -->
+                                <div class="form-group mb-3">
+                                    <label for="editIdUser">ID</label>
+                                    <input readonly type="text" class="form-control" id="editIdUser"
+                                           name="editIdUser"
+                                           th:field="*{idUser}">
+                                </div>
                                 <div class="form-group mb-3">
                                     <label for="editFirstName">First Name</label>
-                                    <input type="text" class="form-control" id="editFirstName" name="editFirstName"
+                                    <input type="text" class="form-control" id="editFirstName"
                                            th:value="${user.firstName}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editLastName">Last Name</label>
-                                    <input type="text" class="form-control" id="editLastName" name="editLastName"
-                                           th:value="${user.lastName}">
+                                    <input type="text" class="form-control" id="editLastName"
+                                           th:field="*{lastName}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editAge">Age</label>
-                                    <input type="number" class="form-control" id="editAge" name="editAge"
-                                           th:value="${user.age}">
+                                    <input type="number" class="form-control" id="editAge"
+                                           th:field="*{age}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editEmail">Email</label>
-                                    <input type="email" class="form-control" id="editEmail" name="editEmail"
-                                           th:value="${user.email}">
+                                    <input type="email" class="form-control" id="editEmail"
+                                           th:field="*{email}" required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editPassword">Password</label>
-                                    <input type="text" class="form-control" id="editPassword" name="editPassword">
+                                    <input type="password" class="form-control" id="editPassword"
+                                           th:field="*{password}">
                                 </div>
-
-                                <!-- roles selection -->
                                 <div class="form-group mb-3">
                                     <label for="roles">Role</label>
-                                    <select class="form-control" id="roles" name="roles" th:field="*{roles}" multiple>
-                                        <option th:each="role : ${roles}" th:value="${role.idRole}"
-                                                th:text="${role.getRoleName().substring(5)}"
-                                                th:selected="${user.roles.contains(role)}"></option>
+                                    <select class="form-control" id="roles" th:field="*{roles}" multiple>
+                                        <option th:each="role : ${roles}" th:value="${role.idRole}" th:text="${role.roleName.substring(5)}" th:selected="${user.roles.contains(role)}"></option>
                                     </select>
                                 </div>
-
                             </div>
-
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">cancel</button>
-                                <button type="submit" class="btn btn-primary">save changes!</button>
-                                <!--                        <a type="button" class="btn btn-primary" th:href="@{/admin/update/{id} (id=${user.idUser})}">save changes!</a>-->
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes!</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <!-- delete popup -->
         <div th:each="user : ${users}">
@@ -275,6 +271,12 @@
 
                             <div class="modal-body">
                                 <!-- form to only display user details -->
+                                <div class="form-group mb-3">
+                                    <label for="deleteIdUser">ID</label>
+                                    <input readonly type="text" class="form-control" id="deleteIdUser"
+                                           name="firstName"
+                                           th:value="${user.idUser}">
+                                </div>
                                 <div class="form-group mb-3">
                                     <label for="deleteFirstName">First Name</label>
                                     <input readonly type="text" class="form-control" id="deleteFirstName"
@@ -313,7 +315,7 @@
                             <div class="modal-footer">
                                 <!--                            <input type="hidden" name="_method" value="DELETE"/>-->
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">cancel</button>
-                                <button type="submit" class="btn btn-danger">delete</button>
+                                <button type="submit" class="btn btn-secondary">delete</button>
                             </div>
                         </form>
                     </div>

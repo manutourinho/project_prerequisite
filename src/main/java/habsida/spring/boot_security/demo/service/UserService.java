@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface UserService {
 
-    User loginUser(String email, String password);
     void saveUser(User user);
 
     void updateUser(Long id, User updatedUser);
@@ -18,6 +17,5 @@ public interface UserService {
 
     List<Role> getRoles();
 
-//    String createAcc(Long idRole, Long idUser);
 
 }

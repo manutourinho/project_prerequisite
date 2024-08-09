@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,22 +20,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-
-    }
-
-    @Override
-    public User loginUser(String email, String password) {
-        return userRepository.findByUsername(email);
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
     }
 
     @Override
     public void saveUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
     }
@@ -49,7 +47,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         updatedUser.setLastName(existingUser.getLastName());
         updatedUser.setAge(existingUser.getAge());
         updatedUser.setEmail(existingUser.getEmail());
-        updatedUser.setPassword(existingUser.getPassword());
+        updatedUser.setPassword(bCryptPasswordEncoder.encode(existingUser.getPassword()));
         updatedUser.setRoles(existingUser.getRoles());
 
         // saving the updated user
@@ -71,43 +69,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<Role> getRoles() {
         return roleRepository.findAll();
-
-    }
-
-//    @Override
-//    public String createAcc(Long idRole, Long idUser) {
-//        Optional<User> userOptional = userRepository.findById(idUser);
-//        Optional<Role> roleOptional = roleRepository.findById(idRole);
-//
-//        if (userOptional.isEmpty()) {
-//            throw new EntityNotFoundException("Username not found :(");
-//
-//        }
-//
-//        User user = userOptional.get();
-//        Role role = roleOptional.orElseThrow(() -> new EntityNotFoundException("Role not found :("));
-//
-//        user.getRoles().add(role);
-//
-//        String generatedPassword = passwordEncoder.encode(user.getPassword());
-//        user.setPassword(generatedPassword);
-//        user.setUsername(generateUsername(user.getEmail()));
-//
-//        userRepository.save(user);
-//
-//        return generatedPassword;
-//    }
-
-    private String generateUsername(String email) {
-        int m = 0;
-        String username = "";
-        do {
-            username = email + (m > 0 ? m : "");
-            m++;
-
-        } while (userRepository.findByUsername(email) != null);
-
-        return username;
 
     }
 
