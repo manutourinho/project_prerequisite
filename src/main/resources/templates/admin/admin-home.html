@@ -206,37 +206,42 @@
                                 <div class="form-group mb-3">
                                     <label for="editIdUser">ID</label>
                                     <input readonly type="text" class="form-control" id="editIdUser"
-                                           name="editIdUser"
-                                           th:field="*{idUser}">
+                                           name="idUser"
+                                           th:value="${user.idUser}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editFirstName">First Name</label>
                                     <input type="text" class="form-control" id="editFirstName"
+                                           name="firstName"
                                            th:value="${user.firstName}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editLastName">Last Name</label>
                                     <input type="text" class="form-control" id="editLastName"
-                                           th:field="*{lastName}">
+                                           name="lastName"
+                                           th:value="${user.lastName}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editAge">Age</label>
                                     <input type="number" class="form-control" id="editAge"
-                                           th:field="*{age}">
+                                           name="age"
+                                           th:value="${user.age}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editEmail">Email</label>
                                     <input type="email" class="form-control" id="editEmail"
-                                           th:field="*{email}" required>
+                                           name="email"
+                                           th:value="${user.email}" required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="editPassword">Password</label>
                                     <input type="password" class="form-control" id="editPassword"
-                                           th:field="*{password}">
+                                           name="password"
+                                           th:value="${user.password}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="roles">Role</label>
-                                    <select class="form-control" id="roles" th:field="*{roles}" multiple>
+                                    <select class="form-control" id="roles" name="roles" multiple>
                                         <option th:each="role : ${roles}" th:value="${role.idRole}" th:text="${role.roleName.substring(5)}" th:selected="${user.roles.contains(role)}"></option>
                                     </select>
                                 </div>
