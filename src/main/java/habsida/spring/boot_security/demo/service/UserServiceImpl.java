@@ -42,15 +42,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User updatedUser = userRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("User not found :("));
 
-        // update fields!!
         updatedUser.setFirstName(existingUser.getFirstName());
         updatedUser.setLastName(existingUser.getLastName());
         updatedUser.setAge(existingUser.getAge());
         updatedUser.setEmail(existingUser.getEmail());
-        updatedUser.setPassword(bCryptPasswordEncoder.encode(existingUser.getPassword()));
+
+        if (existingUser.getPassword() != null && !existingUser.getPassword().isEmpty()) {
+            updatedUser.setPassword(bCryptPasswordEncoder.encode(existingUser.getPassword()));
+        }
+
         updatedUser.setRoles(existingUser.getRoles());
 
-        // saving the updated user
         userRepository.save(updatedUser);
     }
 

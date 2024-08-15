@@ -15,7 +15,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUser;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -26,7 +26,7 @@ public class User implements UserDetails {
     @Column
     private Byte age;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -40,15 +40,11 @@ public class User implements UserDetails {
     @Column(length = 60)
     private String password;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "idRole")
-//    private Role role;
-
     public User() {
     }
 
-    public User(Long idUser, String firstName, String lastName, Byte age, Set<Role> roles, String email, String password) {
-        this.idUser = idUser;
+    public User(Long id, String firstName, String lastName, Byte age, Set<Role> roles, String email, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -66,7 +62,7 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "idUser=" + idUser +
+                "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
@@ -81,28 +77,20 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(idUser, user.idUser);
+        return Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(idUser);
+        return Objects.hashCode(id);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        ArrayList<GrantedAuthority> arrAuths = new ArrayList<>();
-//
-//        if (getRole() != null) {
-//            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(getRole().getRoleName());
-//            arrAuths.add(authority);
-//        }
-//
-//        return arrAuths;
-
         return getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
                 .collect(Collectors.toList());
+
     }
 
     @Override
@@ -136,12 +124,12 @@ public class User implements UserDetails {
     }
     
     //    ✿✿✿ getters & setters ✿✿✿
-    public Long getIdUser() {
-        return idUser;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

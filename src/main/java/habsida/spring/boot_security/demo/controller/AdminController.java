@@ -8,7 +8,6 @@ import habsida.spring.boot_security.demo.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,28 +20,19 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/")
-public class WebAppController {
+public class AdminController {
 
     private final UserService userService;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(WebAppController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public WebAppController(UserService userService, RoleRepository roleRepository, UserRepository userRepository) {
+    public AdminController(UserService userService, RoleRepository roleRepository, UserRepository userRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
-    }
-
-    @GetMapping("/user")
-    public String userHomePage(Model model, Principal principal) {
-        User loggedUser = userRepository.findByUsername(principal.getName());
-        model.addAttribute("loggedUser", loggedUser);
-        model.addAttribute("roles", roleRepository.findAll());
-
-        return "user/user-home";
 
     }
 
@@ -62,7 +52,7 @@ public class WebAppController {
         }
 
         model.addAttribute("userAdd", new User());
-        model.addAttribute("userToUpdate", userRepository.findUserById(user.getIdUser()));
+        model.addAttribute("userToUpdate", userRepository.findUserById(user.getId()));
 
         return "admin/admin-home";
 

@@ -11,7 +11,6 @@ import java.io.IOException;
 @Component
 public class SuccessUserHandler implements AuthenticationSuccessHandler {
 
-    // Spring Security использует объект Authentication, пользователя авторизованной сессии.
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
         String redirectUrl = httpServletRequest.getContextPath();
@@ -22,8 +21,6 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
             redirectUrl = "/user";
 
         }
-        
-
         httpServletResponse.sendRedirect(redirectUrl);
 
     }
